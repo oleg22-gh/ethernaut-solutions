@@ -40,25 +40,14 @@ contract GatekeeperOne {
     }
 
     modifier gateThree(bytes8 _gateKey) {
-        //console2.log("gateThree: uint32(uint64(_gateKey))=", uint32(uint64(_gateKey)));
-        //console2.log("gateThree: uint16(uint160(tx.origin))=", uint16(uint160(tx.origin)));
-        // console2.logBytes8( _gateKey);
-         //console2.log("gateThree:  uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)):", uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)));
-         //console2.log("gateThree:  uint32(uint64(_gateKey)) != uint64(_gateKey):", uint32(uint64(_gateKey)) != uint64(_gateKey));
-         //console2.log("gateThree:  uint32(uint64(_gateKey)) == uint16(uint160(tx.origin)):", uint32(uint64(_gateKey)) == uint16(uint160(tx.origin)));
-
         require(uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)), "GatekeeperOne: invalid gateThree part one");
         require(uint32(uint64(_gateKey)) != uint64(_gateKey), "GatekeeperOne: invalid gateThree part two");
         require(uint32(uint64(_gateKey)) == uint16(uint160(tx.origin)), "GatekeeperOne: invalid gateThree part three");
-        console2.log("_finished");
         _;
-        console2.log("finished_");
     }
 
     function enter(bytes8 _gateKey) public gateOne gateTwo gateThree(_gateKey) returns (bool) {
-        console2.log("enter");
         entrant = tx.origin;
-        console2.log("enter2");
         return true;
     }
 }
